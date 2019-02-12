@@ -10,6 +10,7 @@ function Ticket(props) {
           background-color: #ff5252;
           border-radius: 20px;
           text-align: center;
+          margin: 20px;
         }
         div:hover {
           background-color: #ffdcdc;
@@ -21,7 +22,6 @@ function Ticket(props) {
       <p>
         <em>{props.issue}</em>
       </p>
-      <hr />
     </div>
   );
 }

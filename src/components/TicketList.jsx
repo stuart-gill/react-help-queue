@@ -23,6 +23,13 @@ var masterTicketList = [
 function TicketList() {
   return (
     <div>
+      <style jsx>
+        {`
+          div {
+            background-color: #993131;
+          }
+        `}
+      </style>
       <hr />
       {masterTicketList.map((ticket, index) => (
         <Ticket

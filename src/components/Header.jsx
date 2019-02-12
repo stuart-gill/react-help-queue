@@ -6,7 +6,7 @@ function Header() {
       <style jsx>
         {`
           h1 {
-            text-indent: 40px;
+            text-align: center;
             text-shadow: 2px 2px #cccccc;
           }
         `}
