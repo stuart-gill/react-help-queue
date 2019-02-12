@@ -7,7 +7,12 @@ function Ticket(props) {
     <div>
       <style jsx>{`
         div {
-          background-color: red;
+          background-color: #ff5252;
+          border-radius: 20px;
+          text-align: center;
+        }
+        div:hover {
+          background-color: #ffdcdc;
         }
       `}</style>
       <h3>
