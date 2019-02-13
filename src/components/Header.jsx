@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -12,6 +13,7 @@ function Header() {
         `}
       </style>
       <h1>Helpish Queue!!</h1>
+      <Link to="/">Home</Link> | <Link to="/newticket">Create Ticket</Link>
     </div>
   );
 }
