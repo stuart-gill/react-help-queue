@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 //passing info to Ticket component from TicketList, its parent
 function TicketList(props) {
+  console.log(props.ticketList);
   return (
     <div>
       <style jsx>
@@ -14,13 +15,12 @@ function TicketList(props) {
         `}
       </style>
       <hr />
-      <hr />
-      {props.ticketList.map((ticket, index) => (
+      {props.ticketList.map(ticket => (
         <Ticket
           names={ticket.names}
           location={ticket.location}
           issue={ticket.issue}
-          key={index}
+          key={ticket.id}
         />
       ))}
     </div>
