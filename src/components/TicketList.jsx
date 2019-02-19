@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 //passing info to Ticket component from TicketList, its parent
 function TicketList(props) {
-  console.log(props.ticketList);
+  
   return (
     <div>
       <style jsx>
@@ -20,6 +20,7 @@ function TicketList(props) {
           names={ticket.names}
           location={ticket.location}
           issue={ticket.issue}
+          formattedWaitTime={ticket.formattedWaitTime}
           key={ticket.id}
         />
       ))}
