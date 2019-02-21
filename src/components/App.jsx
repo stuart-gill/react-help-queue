@@ -5,6 +5,7 @@ import NewTicketControl from "./NewTicketControl";
 import Error404 from "./Error404";
 import Moment from "moment";
 import Admin from './Admin';
+import { v4 } from "uuid";
 
 //Route is primary building block of ReactRouter
 //Switch determines which route matches the path the user is requesting... if we have multiple routes, they should should reside within a switch components, which allows the router to iterate through them and locate correct route
@@ -14,17 +15,27 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      masterTicketList: []
+      masterTicketList: {},
+      selectedTicket: null
     };
     this.handleAddingNewTicketToList = this.handleAddingNewTicketToList.bind(
       this
     );
+    this.handleChangingSelectedTicket = this.handleChangingSelectedTicket.bind(this);
   }
 
+  handleChangingSelectedTicket(ticketId) {
+    this.setState({ selectedTicket: ticketId });
+  }
+
+
+  //three arguments of object assign below: {} empty object, existing master list, new ticket 
   handleAddingNewTicketToList(newTicket) {
-    var newMasterTicketList = this.state.masterTicketList.slice();
-    newTicket.formattedWaitTime = (newTicket.timeOpen).fromNow(true);
-    newMasterTicketList.push(newTicket);
+    var newTicketId = v4();
+    var newMasterTicketList = Object.assign({}, this.state.masterTicketList, {
+      [newTicketId]: newTicket
+    });
+    newMasterTicketList[newTicketId].formattedWaitTime = newMasterTicketList[newTicketId].timeOpen.fromNow(true);
     this.setState({ masterTicketList: newMasterTicketList });
   }
 
@@ -36,12 +47,11 @@ class App extends React.Component {
   }
 
   updateTicketElapsedWaitTime() {
-
-    let newMasterTicketList = this.state.masterTicketList.slice();
-    newMasterTicketList.forEach((ticket) =>
-      ticket.formattedWaitTime = (ticket.timeOpen).fromNow(true)
-    );
-    this.setState({ masterTicketList: newMasterTicketList })
+    var newMasterTicketList = Object.assign({}, this.state.masterTicketList);
+    Object.keys(newMasterTicketList).forEach(ticketId => {
+      newMasterTicketList[ticketId].formattedWaitTime = (newMasterTicketList[ticketId].timeOpen).fromNow(true);
+    });
+    this.setState({ masterTicketList: newMasterTicketList });
   }
 
   componentWillUnmount() {
@@ -77,7 +87,9 @@ class App extends React.Component {
               />
             )}
           />
-          <Route path='/admin' render={() => <Admin ticketList={this.state.masterTicketList} />} />
+          <Route path='/admin' render={(props) => <Admin ticketList={this.state.masterTicketList} currentRouterPath={props.location.pathname}
+            onTicketSelection={this.handleChangingSelectedTicket}
+            selectedTicket={this.state.selectedTicket} />} />
           <Route component={Error404} />
         </Switch>
       </div>

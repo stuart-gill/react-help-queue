@@ -4,7 +4,8 @@ import Moment from "moment";
 
 //Ticket gets its props passed to it from TicketList. (data down action up). In React these props are a special type of argument, since all components are functions
 function Ticket(props) {
-  return (
+  const ticketInformation =
+
     <div>
       <style jsx>{`
         div {
@@ -17,15 +18,25 @@ function Ticket(props) {
           background-color: #ffdcdc;
         }
       `}</style>
-      <h3>
-        {props.location} - {props.names}
-      </h3>
+      <h3>{props.location} - {props.names}</h3>
       <h4>{props.formattedWaitTime}</h4>
-      <p>
-        <em>{props.issue}</em>
-      </p>
-    </div>
-  );
+      <hr />
+    </div>;
+
+
+  if (props.currentRouterPath === '/admin') {
+    return (
+      <div onClick={() => { props.onTicketSelection(props.ticketId); }}>
+        {ticketInformation}
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        {ticketInformation}
+      </div>
+    );
+  }
 }
 
 
@@ -36,7 +47,10 @@ Ticket.propTypes = {
   names: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   issue: PropTypes.string,
-  formattedWaitTime: PropTypes.string.isRequired
+  formattedWaitTime: PropTypes.string.isRequired,
+  currentRouterPath: PropTypes.string,
+  onTicketSelection: PropTypes.func,
+  ticketId: PropTypes.string.isRequired
 };
 
 export default Ticket;
