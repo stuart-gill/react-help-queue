@@ -6,10 +6,12 @@ import Error404 from "./Error404";
 import { Switch, Route } from "react-router-dom";
 import Moment from "moment";
 import Admin from "./Admin";
+import { connect } from "react-redux";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       masterTicketList: {},
       selectedTicket: null
@@ -45,7 +47,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.masterTicketList);
     return (
       <div>
         <Header />
@@ -57,7 +58,7 @@ class App extends React.Component {
               <TicketList ticketList={this.state.masterTicketList} />
             )}
           />
-          <Route path="/newticket" render={() => <NewTicketControl />} />
+          <Route path="/newticket" component={NewTicketControl} />
           <Route
             path="/admin"
             render={props => (
@@ -76,4 +77,12 @@ class App extends React.Component {
   }
 }
 
-export default App;
+//in this react/redux function, the key(s) returned are React props, and the value(s) are Redux state itmes we're mapping to those props. In this case, the whole state because masterTicketList is the only thing currently saved in store
+const mapStateToProps = state => {
+  return {
+    masterTicketList: state
+  };
+};
+
+//pass mapstatetoprops to connect()
+export default connect(mapStateToProps)(App);
