@@ -10,17 +10,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
-    this.state = {
-      selectedTicket: null
-    };
-    this.handleChangingSelectedTicket = this.handleChangingSelectedTicket.bind(
-      this
-    );
-  }
-
   componentDidMount() {
     this.waitTimeUpdateTimer = setInterval(
       () => this.updateTicketElapsedWaitTime(),
@@ -42,10 +31,6 @@ class App extends React.Component {
     // this.setState({ masterTicketList: newMasterTicketList });
   }
 
-  handleChangingSelectedTicket(ticketId) {
-    this.setState({ selectedTicket: ticketId });
-  }
-
   render() {
     return (
       <div>
@@ -62,12 +47,7 @@ class App extends React.Component {
           <Route
             path="/admin"
             render={props => (
-              <Admin
-                ticketList={this.props.masterTicketList}
-                currentRouterPath={props.location.pathname}
-                onTicketSelection={this.handleChangingSelectedTicket}
-                selectedTicket={this.state.selectedTicket}
-              />
+              <Admin currentRouterPath={props.location.pathname} />
             )}
           />
           <Route component={Error404} />
