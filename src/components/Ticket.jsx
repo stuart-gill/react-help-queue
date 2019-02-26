@@ -1,11 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Moment from "moment";
+import { connect } from "react-redux";
 
 //Ticket gets its props passed to it from TicketList. (data down action up). In React these props are a special type of argument, since all components are functions
 function Ticket(props) {
-  const ticketInformation =
+  function handleSavingSelectedTicket(ticketId) {
+    const { dispatch } = props;
+    const action = {
+      type: "SELECT_TICKET",
+      ticketId: ticketId
+    };
+    dispatch(action);
+  }
 
+  const ticketInformation = (
     <div>
       <style jsx>{`
         div {
@@ -18,27 +27,28 @@ function Ticket(props) {
           background-color: #ffdcdc;
         }
       `}</style>
-      <h3>{props.location} - {props.names}</h3>
+      <h3>
+        {props.location} - {props.names}
+      </h3>
       <h4>{props.formattedWaitTime}</h4>
       <hr />
-    </div>;
+    </div>
+  );
 
-
-  if (props.currentRouterPath === '/admin') {
+  if (props.currentRouterPath === "/admin") {
     return (
-      <div onClick={() => { props.onTicketSelection(props.ticketId); }}>
+      <div
+        onClick={() => {
+          handleSavingSelectedTicket(props.ticketId);
+        }}
+      >
         {ticketInformation}
       </div>
     );
   } else {
-    return (
-      <div>
-        {ticketInformation}
-      </div>
-    );
+    return <div>{ticketInformation}</div>;
   }
 }
-
 
 //PropTypes dependency allows us to declare a list of props (and data types thereof) that Ticket component accepts
 //PropTypes (cap P) refers to class we imported
@@ -53,7 +63,7 @@ Ticket.propTypes = {
   ticketId: PropTypes.string.isRequired
 };
 
-export default Ticket;
+export default connect()(Ticket);
 
 // VARIOUS TYPES OF PROPTYPES:
 // MyExampleComponent.propTypes = {
