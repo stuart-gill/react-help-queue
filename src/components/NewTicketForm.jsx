@@ -1,22 +1,26 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Moment from "moment";
+import { connect } from "react-redux";
+import { v4 } from "uuid";
 
 function NewTicketForm(props) {
   let _names = null;
   let _location = null;
   let _issue = null;
 
-  // need function keyword for this even handler because it's not inside a class
+  //need function keyword cos not in classs
   function handleNewTicketFormSubmission(event) {
+    const { dispatch } = props;
     event.preventDefault();
-    props.onNewTicketCreation({
+    const action = {
+      type: "ADD_TICKET",
+      id: v4(),
       names: _names.value,
       location: _location.value,
       issue: _issue.value,
       timeOpen: new Moment()
-    });
-
+    };
+    dispatch(action);
     _names.value = "";
     _location.value = "";
     _issue.value = "";
@@ -24,7 +28,6 @@ function NewTicketForm(props) {
 
   return (
     <div>
-      {/* DOM trigger onSubmit only works with button type = submit */}
       <form onSubmit={handleNewTicketFormSubmission}>
         <input
           type="text"
@@ -55,8 +58,4 @@ function NewTicketForm(props) {
   );
 }
 
-NewTicketForm.propTypes = {
-  onNewTicketCreation: PropTypes.func
-};
-
-export default NewTicketForm;
+export default connect()(NewTicketForm);
