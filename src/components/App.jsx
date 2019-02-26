@@ -77,10 +77,10 @@ class App extends React.Component {
   }
 }
 
-//in this react/redux function, the key(s) returned are React props, and the value(s) are Redux state itmes we're mapping to those props. In this case, the whole state because masterTicketList is the only thing currently saved in store
+//in this react/redux function, the key(s) returned are React props, and the value(s) are Redux state itmes we're mapping to those props.
 const mapStateToProps = state => {
   return {
-    masterTicketList: state
+    masterTicketList: state.masterTicketList
   };
 };
 
