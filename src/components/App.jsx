@@ -3,10 +3,11 @@ import Header from "./Header";
 import TicketList from "./TicketList";
 import NewTicketControl from "./NewTicketControl";
 import Error404 from "./Error404";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import Moment from "moment";
 import Admin from "./Admin";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 class App extends React.Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class App extends React.Component {
             exact
             path="/"
             render={() => (
-              <TicketList ticketList={this.state.masterTicketList} />
+              <TicketList ticketList={this.props.masterTicketList} />
             )}
           />
           <Route path="/newticket" component={NewTicketControl} />
@@ -63,7 +64,7 @@ class App extends React.Component {
             path="/admin"
             render={props => (
               <Admin
-                ticketList={this.state.masterTicketList}
+                ticketList={this.props.masterTicketList}
                 currentRouterPath={props.location.pathname}
                 onTicketSelection={this.handleChangingSelectedTicket}
                 selectedTicket={this.state.selectedTicket}
@@ -84,5 +85,9 @@ const mapStateToProps = state => {
   };
 };
 
+App.propTypes = {
+  masterTicketList: PropTypes.object
+};
+
 //pass mapstatetoprops to connect()
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));
